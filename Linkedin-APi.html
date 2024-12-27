@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h1>Linkedin Data Through API</h1>
+	<table>
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>Author ID</th>
+                <th>Author Name</th>
+                <th>Author Title</th>
+                <th>Author Text</th>
+                <th>Author Linkedin URL</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+    </table>
+    
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+    const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://linkedin-api8.p.rapidapi.com/get-company-post-comments?urn=7179144327430844416&sort=mostRelevant&page=1',
+	method: 'GET',
+	headers: {
+		'x-rapidapi-key': '6e9ad4953emshe0b518ebb41df2dp1e58b7jsn04058808c934',
+		'x-rapidapi-host': 'linkedin-api8.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+	response.data.forEach(function(key, value){
+		let author = key.author;
+		let table = document.getElementById('table-body');
+		table.innerHTML += `
+			<tr>
+				<td>${value + 1}</td>
+				<td>${author.id || 'N/A'}</td>
+				<td>${author.name || 'N/A'}</td>
+				<td>${author.title || 'N/A'}</td>
+				<td>${key.text || 'N/A'}</td>
+				<td><a href="${author.linkedinUrl || 'N/A'}" target="_blank">Click Me For Linkedin Profile</a></td>
+			</tr>`;
+	}); 
+});
+</script>
+
+</body>
+</html>
+
+
